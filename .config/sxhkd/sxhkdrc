@@ -1,0 +1,87 @@
+super + {_,shift +} {1-9, 0}
+	i3-msg {_,move container to} workspace {1-9, 10}
+super + {_,shift +} minus
+	i3-msg {scratchpad show, move scratchpad}
+# super + {_,shift +} =
+# 	notify-send =
+super + Tab
+	i3-msg workspace back_and_forth
+super + {_,shift +} q
+	xdo {close, kill}
+super + {_,shift +} w
+	i3-msg layout tabbed
+super + {_,shift +} e
+	i3-msg layout toggle split
+super + {_,shift +} r
+	{dmenu_run, i3-msg restart}
+super + {_,shift +} t
+	notify-send t
+super + {_,shift +} y
+	notify-send y
+super + {_,shift +} u
+	notify-send u
+super + {_,shift +} i
+	notify-send i
+super + {_,shift +} o
+	{$TERMINAL, samedir} -e ranger
+super + {_,shift +} p
+	xfce4-display-settings
+# super + {_,shift +} [
+#	notify-send [
+# super + {_,shift +} ]
+#	notify-send ]
+super + {_,shift +} a
+	i3-msg focus parent
+super + {_,shift +} s
+	{i3-msg layout stacking, flameshot gui}
+super + {_,shift +} d
+	i3-msg focus child
+super + {_,shift +} f
+	i3-msg fullscreen toggle
+super + {_,shift +} g
+	notify-send g
+super + {_,shift +} {h,j,k,l}
+	i3-msg {focus,move} {left,down,up,right}
+# super + {_,shift +} ;
+# 	notify-send ;
+# super + {_,shift +} '
+#	notify-send '
+super + {_,shift +} Return
+	{$TERMINAL, samedir}
+super + {_,shift +} z
+	notify-send z
+super + {_,shift +} x
+	notify-send x
+super + {_,shift +} c
+	{passmenu, i3-msg reload}
+super + {_,shift +} v
+	i3-msg split v
+super + {_,shift +} b
+	i3-msg {split h, bar mode toggle}
+super + {_,shift +} n
+	{$BROWSER, brave}
+super + {_,shift +} m
+	kill -s USR1 $(pidof deadd-notification-center)
+# super + {_,shift +} ,
+# 	notify-send ,
+# super + {_,shift +} .
+# 	notify-send .
+# super + {_,shift +} /
+# 	notify-send /
+super + {_,shift +} space
+	i3-msg {focus mode_toggle, floating toggle}
+
+super + backslash
+	passmenu --type
+
+super + {Left, Down, Up, Right}
+	i3resize {left, down, up, right}
+
+# ctrl + alt + Delete
+# 	pkill Xorg
+
+# Print
+# 	flameshot gui
+
+@{Caps_Lock,Num_Lock}
+	pkill -SIGRTMIN+11 i3blocks

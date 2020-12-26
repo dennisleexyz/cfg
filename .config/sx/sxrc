@@ -1,0 +1,5 @@
+#!/bin/sh
+#shellcheck source=.xprofile
+. ~/.xprofile
+
+ssh-agent ${1:-i3}

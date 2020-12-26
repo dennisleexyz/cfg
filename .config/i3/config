@@ -1,0 +1,20 @@
+font pango:sans
+floating_modifier $mod
+default_border pixel 1
+hide_edge_borders smart
+set $mod Mod4
+
+for_window [title="Polls"] floating enable
+for_window [class="Steam"] floating enable
+# for_window [title="zoom"] floating enable
+
+bar {
+	status_command i3blocks
+	mode hide
+	position top
+	tray_output primary
+	tray_padding 0
+}
+
+# i3 config file (v4)
+# ex: ft=i3config

@@ -1,0 +1,7 @@
+colors dark
+set newtab about:newtab
+bind / fillcmdline find
+bind ? fillcmdline find -?
+bind n findnext 1
+bind N findnext -1
+bind <C-L> nohlsearch

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for f in "$(dirname "$0")"/*; do
+	echo "$f" | grep -y "$(lsb_release -si)" && "$f"
+done
