@@ -41,3 +41,7 @@ else
 fi
 alias ls='ls --color=auto'
 [ $TERM = xst-256color ] && TERM=st-256color
+
+#https://github.com/Liupold/pidswallow#autostart
+[ -n "$DISPLAY" ]  && command -v xdo >/dev/null 2>&1 && xdo id > /tmp/term-wid-"$$"
+trap "( rm -f /tmp/term-wid-"$$" )" EXIT HUP

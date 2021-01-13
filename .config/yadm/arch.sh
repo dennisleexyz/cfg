@@ -58,6 +58,7 @@ ping example.com -w 1 && {
 	fi
 
 	install '
+		pidswallow
 		pmount
 		gtk3-nocsd-git
 		simple-scan
@@ -89,7 +90,8 @@ ping example.com -w 1 && {
 			# ctags
 		pass
 			xdotool
-		shellcheck
+		pandoc-bin
+		shellcheck-bin
 		mosh
 		sx
 			pcmanfm

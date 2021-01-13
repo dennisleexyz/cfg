@@ -14,6 +14,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'kovetskiy/sxhkd-vim'
 	Plug 'lilydjwg/fcitx.vim'
 	Plug 'vimwiki/vimwiki'
+	Plug 'chazmcgarvey/vim-mermaid'
 call plug#end()
 
 autocmd VimEnter *

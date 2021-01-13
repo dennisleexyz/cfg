@@ -20,3 +20,5 @@ udiskie -t --terminal=ranger &
 
 # remaps &
 userjsupdate &
+
+pgrep -fl 'pidswallow -gl' || pidswallow -gl &

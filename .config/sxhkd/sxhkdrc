@@ -77,6 +77,9 @@ super + backslash
 super + {Left, Down, Up, Right}
 	i3resize {left, down, up, right}
 
+super + shift + {Left, Down, Up, Right}
+	i3-msg move workspace to output {left, down, up, right}
+
 # ctrl + alt + Delete
 # 	pkill Xorg
 
