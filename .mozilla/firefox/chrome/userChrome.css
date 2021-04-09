@@ -3,7 +3,10 @@ toolbarbutton#scrollbutton-down,
 toolbarbutton#alltabs-button,
 .tab-close-button,
 
-[disabled="true"],
+#back-button[disabled="true"],
+#back-button-tooltip,
+#forward-button[disabled="true"],
+#forward-button-tooltip,
 #reload-button,
 
 toolbarbutton#new-tab-button,

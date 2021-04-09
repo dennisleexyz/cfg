@@ -1,0 +1,7 @@
+show-read-feeds no
+auto-reload yes
+
+bind-key h quit
+bind-key j down
+bind-key k up
+bind-key l open
