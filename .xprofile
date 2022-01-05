@@ -1,24 +1,6 @@
 #!/bin/sh
 
 #shellcheck disable=2155
-export BROWSER=$(type iceweasel >/dev/null 2>&1 && echo iceweasel || echo firefox)
-
-dex -a &
-
-deadd-notification-center &
-redshift &
-sxhkd &
+export BROWSER=firefox-esr
 
 birdtray &
-flameshot &
-kdeconnect-indicator &
-volumeicon &
-
-xrdb -merge "$XDG_CONFIG_HOME/xrdb/Xresources" && autotheme &
-xss-lock killall autotheme && autotheme &
-udiskie -t --terminal=ranger &
-
-# remaps &
-userjsupdate &
-
-pgrep -fl 'pidswallow -gl' || pidswallow -gl &

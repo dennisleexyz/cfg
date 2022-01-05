@@ -17,6 +17,8 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'chazmcgarvey/vim-mermaid'
 	Plug 'sirtaj/vim-openscad'
 	Plug 'airblade/vim-gitgutter'
+	Plug 'editorconfig/editorconfig-vim'
+	Plug 'ActivityWatch/aw-watcher-vim'
 call plug#end()
 
 autocmd VimEnter *
@@ -32,6 +34,8 @@ map <leader>s :w! \| !shellcheck -x %<CR>
 map <leader>c :w! \| !compiler %<CR>
 map <leader>p :!opout <c-r>%<CR><CR>
 map <leader>o :setlocal spell! spelllang=en_us<CR>
+map Q :q<CR>
+map ! :shell 
 
 autocmd BufRead,BufNewFile *.toml,*.conf,*i3blocks/config set ft=dosini
 autocmd BufRead,BufNewFile *.txt set ft=markdown

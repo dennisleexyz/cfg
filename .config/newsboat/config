@@ -5,3 +5,14 @@ bind-key h quit
 bind-key j down
 bind-key k up
 bind-key l open
+bind-key G end
+bind-key g home
+bind-key d pagedown
+bind-key u pageup
+bind-key f pagedown
+bind-key b pageup
+
+bind-key LEFT quit
+bind-key DOWN down
+bind-key UP up
+bind-key RIGHT open

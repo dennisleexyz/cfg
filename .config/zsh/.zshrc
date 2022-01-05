@@ -18,6 +18,8 @@ setopt hist_ignore_space
 
 bindkey -s '^r' '. "${ZDOTDIR:-$HOME}/.zshrc"\n'
 bindkey -s '^o' 'ranger_cd\n'
+bindkey -s '^a' 'bc -lq\n'
+bindkey -s '^n' 'newsboat\n'
 
 pushd >/dev/null && cd /usr/share/zsh && [ -d plugins ] && cd plugins
 	. zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
@@ -39,7 +41,8 @@ else
 	vi='vim' \
 
 fi
-alias ls='ls --color=auto'
+alias ls='ls --color'
+alias grep='grep --color'
 [ $TERM = xst-256color ] && TERM=st-256color
 
 #https://github.com/Liupold/pidswallow#autostart
