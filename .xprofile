@@ -1,6 +1,8 @@
 #!/bin/sh
 
-#shellcheck disable=2155
+# shellcheck source=.config/zsh/.zshenv
+. "$ZDOTDIR/.zshenv"
+
 export BROWSER=firefox-esr
 
 birdtray &
