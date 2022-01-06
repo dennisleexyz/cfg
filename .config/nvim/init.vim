@@ -30,12 +30,23 @@ set bg=light
 set mouse=a
 set clipboard+=unnamedplus
 
-map <leader>s :w! \| !shellcheck -x %<CR>
-map <leader>c :w! \| !compiler %<CR>
-map <leader>p :!opout <c-r>%<CR><CR>
-map <leader>o :setlocal spell! spelllang=en_us<CR>
+" Check file in shellcheck:
+	map <leader>s :w! \| !shellcheck -x %<CR>
+
+" Compile document, be it groff/LaTeX/markdown/etc.
+	map <leader>c :w! \| !compiler %<CR>
+
+" Open corresponding .pdf/.html or preview
+	map <leader>p :!opout <c-r>%<CR><CR>
+
+" Spell-check set to <leader>o, 'o' for 'orthography':
+	map <leader>o :setlocal spell! spelllang=en_us<CR>
+
 map Q :q<CR>
-map ! :shell 
+map ! :! 
+
+" Save file as sudo on files that require root permission
+	cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 autocmd BufRead,BufNewFile *.toml,*.conf,*i3blocks/config set ft=dosini
 autocmd BufRead,BufNewFile *.txt set ft=markdown
