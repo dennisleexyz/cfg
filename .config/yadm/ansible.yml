@@ -1,0 +1,472 @@
+---
+- hosts: localhost
+  tasks:
+    # https://wiki.archlinux.org/title/Official_repositories#multilib
+    # Chaotic-AUR - automated repo
+    # https://aur.chaotic.cx
+    # Helping you, so you don't have to worry about building AUR packages each update!
+    - name: Chaotic-AUR - automated building repo for AUR packages
+      block:
+        - name: First, install the primary key - it can then be used to install our keyring and mirrorlist.
+          block:
+            - community.general.pacman_key:
+                id: A3873AB27021C5DD39E0501AFBA220DFC880C036
+                keyserver: keyserver.ubuntu.com
+
+            - community.general.pacman_key:
+                id: DDF7DB817396A49B2A2723F7403BD972F75D9D76
+                keyserver: keyserver.ubuntu.com
+
+            - community.general.pacman:
+                name:
+                  - https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
+                  - https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst
+
+        - name: 'Append (adding to the end of the file) to /etc/pacman.conf:'
+          ansible.builtin.blockinfile:
+            path: /etc/pacman.conf
+            block: |
+              # UseSyslog
+              # Color
+              # CheckSpace
+              # VerbosePkgLists
+              # ParallelDownloads = 5
+
+              [multilib]
+              Include = /etc/pacman.d/mirrorlist
+
+              [chaotic-aur]
+              Include = /etc/pacman.d/chaotic-mirrorlist
+
+              #IgnorePkg   = linux
+
+              [archzfs]
+              Server = http://archzfs.com/$repo/$arch
+              Server = http://mirror.sum7.eu/archlinux/archzfs/$repo/$arch
+              Server = https://mirror.biocrafting.net/archlinux/archzfs/$repo/$arch
+              Server = https://mirror.in.themindsmaze.com/archzfs/$repo/$arch
+              Server = https://zxcvfdsa.com/archzfs/$repo/$arch
+
+              [zfs-linux]
+              Server = http://kernels.archzfs.com/$repo/
+
+              # [instant]
+              # SigLevel = Optional TrustAll
+              # Include = /etc/pacman.d/instantmirrorlist
+      become: yes
+
+    # - name: Download instantmirrorlist
+    #   become: yes
+    #   get_url:
+    #     url: https://raw.githubusercontent.com/instantOS/instantOS/main/mirrors/amd64
+    #     dest: /etc/pacman.d/instantmirrorlist
+    #     force: yes
+    #     backup: yes
+
+    - name: Run the equivalent of "pacman -Syu" as a separate step
+      community.general.pacman:
+        update_cache: yes
+        upgrade: yes
+      become: yes
+
+    - name: Install package from repo
+      community.general.pacman:
+        name: 
+          - base-devel
+          - yay
+      become: yes
+
+    # - name: Create the `aur_builder` user
+    #   become: yes
+    #   ansible.builtin.user:
+    #     name: aur_builder
+    #     create_home: yes
+    #     group: wheel
+
+    # - name: Allow the `aur_builder` user to run `sudo pacman` without a password
+    #   become: yes
+    #   ansible.builtin.ansible.builtin.lineinfile:
+    #     path: /etc/sudoers.d/11-install-aur_builder
+    #     line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+    #     create: yes
+    #     validate: 'visudo -cf %s'
+
+    # - name: Install trizen using makepkg if it isn't installed already
+    #   kewlfft.aur.aur:
+    #     name: trizen
+    #     use: makepkg
+    #     state: present
+    #   become: yes
+    #   become_user: aur_builder
+
+    - name: Install package from repo
+      kewlfft.aur.aur:
+        name:
+          # - linux
+          # - linux-headers
+          # - zfs-linux
+          # - zfs-utils
+          - tlp
+          # - tp_smapi
+          # - acpi_call
+          - smartmontools
+          - ethtool
+          # lsblk -f | grep btrfs && install btrfs-progs
+          - btrfs-progs
+          - networkmanager
+          # - pulseaudio
+          - yadm
+          - snapper
+          # - snap-pac-grub
+
+          # - reflector
+
+          - dashbinsh
+
+          - noto-fonts
+          - noto-fonts-cjk
+          - noto-fonts-emoji
+          - ttf-fira-code
+          - ttf-nerd-fonts-symbols
+
+          - pandoc-bin
+
+          - shellcheck-bin
+
+          ### Miscellaneous
+
+          - man
+          # - mandoc
+          - man-pages
+          - grub
+          - efibootmgr
+          - os-prober
+          # - topgrade
+          # - chaotic-keyring
+          # - chaotic-mirrorlist
+          - appimagelauncher
+
+          ### Distros
+
+
+          ### Web browsers
+
+          # - browserpass-firefox
+          # - firefox-tridactyl-native
+          # - firefox-extension-gnome-shell-integration
+
+          # - brave-bin
+          # - chromium-extension-adnauseam
+          # - browserpass-chromium
+
+          ### Mail clients
+
+          - thunderbird
+
+          ### Password managers
+
+          - pass
+          # - xdotool
+
+          ### Shells
+
+          - dashbinsh
+
+          # - zsh-autosuggestions
+          # - zsh-completions
+          # - zsh-history-substring-search
+          # - zsh-syntax-highlighting
+          # - zsh-doc
+
+          ### Text editors
+
+          # - neovim
+          # - ctags
+
+          ### X11
+
+          - gdm
+
+          - regolith-full
+          # - libxft-bgra
+          - unclutter-xfixes-git
+          - network-manager-applet
+          # - lightdm
+
+          # - aur/gnome-shell-extension-pop-shell-git
+          # - chrome-gnome-shell
+          # - gnome-tweaks
+
+          - dynamic-wallpaper-catalina-gnome-timed-git
+          - dynamic-wallpaper-mojave-gnome-timed-git
+          - gnome-backgrounds-lakeside-git
+          - gnome-backgrounds-bitday-git
+
+          # - dwm-gnome
+          # - i3-gnome-flashback
+          # - i3-gnome
+          # - i3-cinnamon-git
+          # - awesome-gnome
+          # - awesome-cinnamon
+          # - xmonad-cinnamon-git
+
+          # - bspwm-kde-session
+          # - plasma5-wallpapers-dynamic
+          # - dynamic-wallpaper-catalina-kde-git
+          # - dynamic-wallpaper-mojave-kde-git
+          # - dynamic-wallpaper-macos-catalina-kde
+
+          # - mate-terminal
+
+          - automathemely
+          # - gnome-session-properties
+            # https://wiki.archlinux.org/title/Uniform_look_for_Qt_and_GTK_applications#Theme_engines
+          - qt5-styleplugins
+          # - qt6gtk2
+          # - qt6ct
+          # QT_QPA_PLATFORMTHEME=qt6gtk2
+
+          - fcitx-chewing
+          - fcitx-configtool
+          # - android-tools
+          # - syncthing
+          # - surfraw
+          # - signal-desktop
+          # - ntfs-3g
+          # - steam
+          # - cabextract
+
+          # - lightdm-gtk-greeter
+          # - lightlocker
+          # - sx
+          # - pcmanfm
+          # - gvfs-mtp
+          # - gvfs-gphoto2
+          # - qemu
+          # - xss-lock
+          # - python-pillow-simd
+          # - ueberzug
+          # - xdo
+          # - xcape
+          # - imagemagick
+          # - sxiv
+          # - dunst
+          # - deadd-notification-center-bin
+          # - indicator-kdeconnect
+          # - breeze-icons
+          # - redshift
+          # - volumeicon
+          # - dex
+          # - sxhkd
+          # - dmenu
+          # - xorg-xmodmap
+          # - xcape
+          # - polybar
+          # - rofi
+          # - xst
+          # - xurls
+          # - lxqt-policykit
+          # - lxsession
+          # - lxqt-sudo
+          # - oxygen-icons
+          # - xfce4-settings
+          # - qt5-styleplugins
+          # - birdtray
+          # - kdocker
+          # - xcompmgr
+          # - i3-wm
+          # - i3blocks
+          # - i3blocks-contrib
+
+          # - fcron
+          # - pidswallow
+          # - pmount
+          # - gtk3-nocsd-git
+          # - simple-scan
+          # - iriunwebcam-bin
+          # - x2x
+          # - droidcam
+          # - x11-ssh-askpass
+          # - flameshot
+          # - mtpfs
+          # - xdg-user-dirs
+          # - udiskie
+          # - sunwait
+          # - dvtm
+          # - alsa-utils
+          # - mosh
+          # - ranger
+          # - autorandr
+          # - dragon-drag-and-drop
+          # - zathura
+          # - https://github.com/NixOS/nixpkgs/blob/release-20.03/nixos/modules/services/printing/cupsd.nix
+          # - cups-pdf
+          # - https://github.com/NixOS/nixpkgs/blob/release-20.03/nixos/modules/services/security/physlock.nix
+          # - physlock
+          # - npm
+          # - tzupdate
+          # - xorg-xrdb
+          # - anki
+          # - bc
+          - openscad
+          - cura
+
+    - name: Ensure a locale exists
+      community.general.locale_gen:
+        name: en_US.UTF-8
+      async: 0
+      poll: 0
+
+    # - name: DNS management
+    #   become: yes
+    #   ansible.builtin.blockinfile:
+    #     path: /etc/NetworkManager/conf.d/dns-servers.conf
+    #     block: |
+    #       [global-dns-domain-*]
+    #       servers=94.140.14.15,94.140.15.16
+    #     create: yes
+    #   async: 0
+    #   poll: 0
+
+    - name: Getting rid of that retarded error beep sound...
+      become: yes
+      ansible.builtin.lineinfile:
+        path: /etc/modprobe.d/nobeep.conf
+        line: blacklist pcspkr
+        create: yes
+      async: 0
+      poll: 0
+
+    - name: Enable service
+      ansible.builtin.systemd:
+        name: gdm
+        state: started
+        enabled: yes
+
+    # - name: Stop service
+    #   ansible.builtin.systemd:
+    #     name: watchdog
+    #     state: stopped
+    #     enabled: no
+
+    # - name: Enable service
+    #   become: yes
+    #   ansible.builtin.systemd:
+    #     name: reflector.service
+    #     enabled: yes
+
+    - name: Enable service
+      become: yes
+      ansible.builtin.systemd:
+        name: '{{item}}'
+        state: started
+        enabled: yes
+      loop:
+        - systemd-timesyncd
+        - NetworkManager
+        # - fcron
+        # - cups.socket
+        # - alsa-restore
+        # - sshd
+        - snapper-timeline.timer
+        - snapper-cleanup.timer
+        # - reflector.timer
+        - tlp.service
+        - systemd-rfkill.service
+        - systemd-rfkill.socket
+
+    - name: change user shell to zsh 
+      become: yes
+      user:
+        name: "{{ansible_user_id}}"
+        shell: /bin/zsh
+      async: 0
+      poll: 0
+
+    # - name: Download hosts
+    #   become: yes
+    #   get_url:
+    #     url: https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts
+    #     dest: /etc/hosts
+    #     force: yes
+    #     backup: yes
+    #   async: 0
+    #   poll: 0
+
+    # - name: Download
+    #   become: yes
+    #   get_url:
+    #     url: archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=6&use_mirror_status=on
+    #     dest: /etc/pacman.d/mirrorlist
+    #     force: yes
+    #     backup: yes
+    #   async: 0
+    #   poll: 0
+
+    - name:
+      become: yes
+      ansible.builtin.command: grub-install --target=x86_64-efi --efi-directory=/boot/efi
+      args:
+        creates: /boot/grub
+
+    - name: 
+      become: yes
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: GRUB_TIMEOUT=
+        line: GRUB_TIMEOUT=0
+
+    - name: 
+      become: yes
+      ansible.builtin.lineinfile:
+        path: /etc/default/grub
+        regexp: GRUB_TIMEOUT_STYLE=
+        line: GRUB_TIMEOUT_STYLE=hidden
+
+    - name:
+      become: yes
+      ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
+
+    # - name: Block Brave autoupdates just in case. (I don't know if these even exist on Linux, but whatever.)
+    #   become: yes
+    #   ansible.builtin.blockinfile:
+    #     path: /etc/hosts
+    #     block: 0.0.0.0 laptop-updates.brave.com
+
+    # https://docs.syncthing.net/users/faq.html#inotify-limits
+    # - name: fs.inotify.max_user_watches=204800
+    #   become: yes
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/sysctl.d/90-override.conf
+    #     line: fs.inotify.max_user_watches=204800
+    #     create: yes
+    #   async: 0
+    #   poll: 0
+
+    # - name: 
+    #   ansible.builtin.shell: rm ~/"$(basename "{{item|quote}}")" #|| true
+    #   args:
+    #     removes: ~/"$(basename "{{item|quote}}")"
+    #   # ignore_errors: yes
+    #   with_fileglob: '/etc/skel/.*'
+    #   async: 0
+    #   poll: 0
+
+    # rm motd
+    # rm systemd-resolvconf
+
+    - name: 
+      become: yes
+      ansible.builtin.blockinfile:
+        path: /etc/tlp.d/00-template.conf
+        block: |
+          START_CHARGE_THRESH_BAT0=65
+          STOP_CHARGE_THRESH_BAT0=75
+
+    - name: 
+      become: yes
+      ansible.builtin.command: tlp start
+
+    # - name: Show facts available on the system
+    #   ansible.builtin.debug:
+    #     var: ansible_facts #.mounts[1].fstype

@@ -1,5 +1,5 @@
 #!/bin/sh
 
-for f in "$(dirname "$0")"/*; do
-	echo "$f" | grep -y "$(lsb_release -si)" && "$f"
-done
+ansible-galaxy collection install -r "$(dirname "$0")"/requirements.yml
+
+sudo -v && ansible-playbook "$(dirname "$0")"/ansible.yml
