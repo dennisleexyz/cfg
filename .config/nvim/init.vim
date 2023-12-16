@@ -15,11 +15,18 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'lilydjwg/fcitx.vim'
 	Plug 'vimwiki/vimwiki'
 	Plug 'chazmcgarvey/vim-mermaid'
-	Plug 'sirtaj/vim-openscad'
+	Plug 'salkin-mada/openscad.nvim'
 	Plug 'airblade/vim-gitgutter'
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'ActivityWatch/aw-watcher-vim'
+	Plug 'tranvansang/octave.vim'
+	Plug 'udalov/kotlin-vim'
+	Plug 'LnL7/vim-nix'
+	Plug 'dhruvasagar/vim-table-mode'
+	Plug 'tpope/vim-eunuch'
 call plug#end()
+
+lua require('openscad')
 
 autocmd VimEnter *
 	\  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
@@ -43,16 +50,17 @@ set clipboard+=unnamedplus
 	map <leader>o :setlocal spell! spelllang=en_us<CR>
 
 map Q :q<CR>
-map ! :! 
+map ! :!
 
 " Save file as sudo on files that require root permission
 	cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 autocmd BufRead,BufNewFile *.toml,*.conf,*i3blocks/config set ft=dosini
+autocmd BufRead,BufNewFile *font*.conf set ft=xml
 autocmd BufRead,BufNewFile *.txt set ft=markdown
 
 autocmd FileType vim set shiftwidth=2 softtabstop=2 tabstop=2
-autocmd FileType python set noexpandtab shiftwidth=4 softtabstop=4 tabstop=4
+autocmd FileType vimwiki,rmd,javascript set expandtab shiftwidth=2 softtabstop=2 tabstop=2
 
 autocmd BufWritePost *i3/config !i3 -C && i3-msg reload
 autocmd BufWritePost *i3blocks/config !i3-msg restart
