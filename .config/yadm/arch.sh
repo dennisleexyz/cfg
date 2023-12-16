@@ -58,6 +58,11 @@ ping example.com -w 1 && {
 	fi
 
 	install '
+		dashbinsh
+		fcron
+		chaotic-keyring
+		chaotic-mirrorlist
+		zfs-dkms
 		pidswallow
 		pmount
 		gtk3-nocsd-git
@@ -160,7 +165,7 @@ ping example.com -w 1 && {
 		os-prober
 		#zathura
 		#https://github.com/NixOS/nixpkgs/blob/release-20.03/nixos/modules/services/printing/cupsd.nix
-		#cups
+		cups-pdf
 		#https://github.com/NixOS/nixpkgs/blob/release-20.03/nixos/modules/services/security/physlock.nix
 		#physlock
 		npm
@@ -172,9 +177,7 @@ ping example.com -w 1 && {
 
 	sudo tzupdate
 
-	sudo curl \
-		https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn/hosts \
-		-o /etc/hosts
+	sudo curl http://sbc.io/hosts/alternates/fakenews-gambling-porn-social/hosts -o /etc/hosts
 	mkdir -p ~/.local/src && cd ~/.local/src &&
 	git clone git://bitreich.org/privacy-haters
 	cd ~/.icedove &&
@@ -193,17 +196,18 @@ ping example.com -w 1 && {
 	# shellcheck disable=2116
 	[ -n "$DISPLAY" ] && for addon in $(echo "
 		adnauseam
+		archiveror
 		browserpass
 		buster-captcha-solver
 		# darkreader
 		decentraleyes
 		disable-polymer-youtube
 		firenvim
-		invidition
+		# invidition
 		redirect-bypasser-webextension
-		old-reddit-redirect
-		reddit_comment_collapser
-		# privacy-redirect
+		# old-reddit-redirect
+		# reddit_comment_collapser
+		privacy-redirect
 		clearurls
 		canvasblocker
 	" | sed 's/#.*//'); do
@@ -219,6 +223,8 @@ sudo grub-install --target=x86_64-efi --efi-directory=/boot/efi
 sudo systemctl enable --now \
 	systemd-timesyncd \
 	NetworkManager \
+	fcron \
+	cups.socket
 	# alsa-restore \
 	#sshd \
 
@@ -253,3 +259,5 @@ grep laptop-updates.brave.com /etc/hosts || echo '0.0.0.0 laptop-updates.brave.c
 
 grep "$(id -un)" /etc/passwd | grep /bin/sh || chsh -s /bin/sh
 for f in /etc/skel/.*; do rm ~/"$(basename "$f")"; done
+
+grep "fs.inotify.max_user_watches=204800" /etc/sysctl.d/90-override.conf || echo "fs.inotify.max_user_watches=204800" | sudo tee -a /etc/sysctl.d/90-override.conf
