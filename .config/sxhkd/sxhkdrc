@@ -4,6 +4,8 @@ super + {_,shift +} minus
 	i3-msg {scratchpad show, move scratchpad}
 # super + {_,shift +} =
 # 	notify-send =
+# super + Esc
+# 	xss-lock
 super + Tab
 	i3-msg workspace back_and_forth
 super + {_,shift +} q
@@ -15,7 +17,7 @@ super + {_,shift +} e
 super + {_,shift +} r
 	{dmenu_run, i3-msg restart}
 super + {_,shift +} t
-	notify-send t
+	{$TERMINAL, samedir}
 super + {_,shift +} y
 	notify-send y
 super + {_,shift +} u
@@ -23,7 +25,7 @@ super + {_,shift +} u
 super + {_,shift +} i
 	notify-send i
 super + {_,shift +} o
-	{$TERMINAL, samedir} -e ranger
+	pcmanfm
 super + {_,shift +} p
 	xfce4-display-settings
 # super + {_,shift +} [
