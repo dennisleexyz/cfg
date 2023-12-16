@@ -3,7 +3,7 @@
 # shellcheck source=.config/zsh/.zshenv
 . "$ZDOTDIR/.zshenv"
 
-export BROWSER=firefox-esr
+export BROWSER=firefox
 
 setxkbmap -option compose:menu
 xmodmap -e 'keycode 108 = dead_greek Meta_R Alt_R Meta_R'
