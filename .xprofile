@@ -9,4 +9,10 @@ setxkbmap -option compose:menu
 xmodmap -e 'keycode 108 = dead_greek Meta_R Alt_R Meta_R'
 ln -s "${XDG_CACHE_HOME:-~/.cache}/mozilla_$(id -un)0" /tmp
 
-birdtray &
+kdeconnect-indicator &
+signal-desktop &
+flameshot &
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# onedrivegui &
+# thunderbird &
+# cronometer &
